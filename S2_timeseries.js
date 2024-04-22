@@ -1,3 +1,4 @@
+
 //  -------------------------------------------------------------------
 // --------------------  INPUT USERS PARAMETERS  ----------------------
 //  -------------------------------------------------------------------
@@ -19,17 +20,25 @@ var endDate = '2021-01-01';
 var tile = '33UUP';
 //33UUP, 32UQU
 
+// 4. Choose one of the two twin satellites from the Sentinel system (Optional)
+// Use this if you observe spatial displacement in the images, 
+// otherwise use bot twin satellitess and do image co-registration 
+// 
+var s2a = 'Sentinel-2A';
+var s2b = 'Sentinel-2B';
+var twinsat = s2a;
+
 
 //  5. Choose the range of images to be desplayed (starts at 0!)
 
-var startImage = 15;
-var endImage = 20;
+var startImage = 0;
+var endImage = 10;
 
 //  6.Explore the images and note down the index 
 //  of good images from sorted collection that should be downloaded
 
 var good = [0,1,2,3,4,5,6,7,8,9,11,12,14,15]; //first evaluation
-var show_good = 'Y';
+var show_good = 'N';
 
 //  7. Download images? Y/N
 
@@ -40,6 +49,7 @@ var download = 'N';
 // --------------------  MAIN CODE  ----------------------
 //  -------------------------------------------------------------------
 
+// 1.& 2. Create an image collection for the specified AOI and time-perriod
 var s2Collection = ee.ImageCollection("COPERNICUS/S2_SR_HARMONIZED")
   .filter(ee.Filter.date(startDate, endDate))
   .filter(ee.Filter.bounds(roi))
@@ -48,12 +58,22 @@ var s2Collection = ee.ImageCollection("COPERNICUS/S2_SR_HARMONIZED")
   
 print(s2Collection,"S2Collection All Tiles");
 
+// 3. Check if a certain tile is defined and filter the collection only for this tile
 if (typeof tile !== 'undefined') {
       // 'tile' is declared, so add the filter and print the collection
      s2Collection = s2Collection.filterMetadata('MGRS_TILE', 'equals', tile);
      print(s2Collection,"S2Collection " + tile);
     }
 
+// 4. 
+// Filter for images from only Sentinel-2A
+if (typeof twinsat !== 'undefined') {
+      // 'tile' is declared, so add the filter and print the collection
+     s2Collection = s2Collection.filterMetadata('SPACECRAFT_NAME', 'equals', twinsat);
+     print(s2Collection,"S2Collection " + twinsat);
+    }
+    
+// Check if an orbit path is defined
 // Set Viz parameters
 var vizParams = {
   min: 0.0,
