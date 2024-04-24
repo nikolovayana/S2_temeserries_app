@@ -20,12 +20,13 @@ var tile = '33UUP';
 //33UUP, 32UQU
 
 // 4. Choose one of the two twin satellites from the Sentinel system (Optional)
-// Use this if you observe spatial displacement in the images, 
+// If you observe spatial displacement in the images,
+// uncomment the variable twinsat and choose between s2a and s2b
 // otherwise use bot twin satellitess and do image co-registration 
 // 
 var s2a = 'Sentinel-2A';
 var s2b = 'Sentinel-2B';
-var twinsat = s2a;
+//var twinsat = s2b;
 
 
 //  5. Choose the range of images to be desplayed (starts at 0!)
@@ -37,11 +38,11 @@ var endImage = 10;
 //  of good images from sorted collection that should be downloaded
 
 var good = [0,1,2,3,4,5,6,7,8,9,11,12,14,15]; //first evaluation
-var show_good = 'N';
+var show_good = 'Y';
 
 //  7. Download images? Y/N
 
-var download = 'N';
+var download = 'Y';
 
 
 //  -------------------------------------------------------------------
